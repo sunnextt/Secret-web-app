@@ -19,10 +19,11 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(session({
-  secret: "Our little secret.",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -47,6 +48,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
+
 
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
